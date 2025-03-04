@@ -1,6 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_b9/views/create_task.dart';
+import 'package:flutter_b9/views/get_all_task.dart';
+import 'package:flutter_b9/views/get_completed_task.dart';
+import 'package:flutter_b9/views/get_in_completed_task.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -31,7 +38,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: GetInCompletedTaskView(),
     );
   }
 }
