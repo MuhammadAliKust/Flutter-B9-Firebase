@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_b9/models/task.dart';
 import 'package:flutter_b9/services/task.dart';
 import 'package:flutter_b9/views/create_task.dart';
+import 'package:flutter_b9/views/update_task.dart';
 import 'package:provider/provider.dart';
 
 class GetAllTaskView extends StatelessWidget {
@@ -32,6 +33,46 @@ class GetAllTaskView extends StatelessWidget {
                   leading: Icon(Icons.task),
                   title: Text(taskList[i].title.toString()),
                   subtitle: Text(taskList[i].description.toString()),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                          onPressed: () async {
+                            try {
+                              await TaskServices()
+                                  .deleteTask(taskList[i].taskId.toString());
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(e.toString())));
+                            }
+                          },
+                          icon: Icon(
+                            Icons.delete,
+                            color: Colors.red,
+                          )),
+                      Checkbox(
+                          value: taskList[i].isCompleted,
+                          onChanged: (val) async {
+                            try {
+                              await TaskServices().markTaskAsComplete(
+                                  taskList[i].taskId.toString());
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text(e.toString())));
+                            }
+                          }),
+                      IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => UpdateTaskView(
+                                          model: taskList[i],
+                                        )));
+                          },
+                          icon: Icon(Icons.edit))
+                    ],
+                  ),
                 );
               });
         },
