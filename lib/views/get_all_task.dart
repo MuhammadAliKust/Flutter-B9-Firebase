@@ -36,7 +36,12 @@ class GetAllTaskView extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.flag,color: taskList[i].priorityName == "High"?Colors.red:Colors.green,),
+                      Icon(
+                        Icons.flag,
+                        color: taskList[i].priorityName == "High"
+                            ? Colors.red
+                            : Colors.green,
+                      ),
                       // IconButton(
                       //     onPressed: () async {
                       //       try {
