@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_b9/models/priority.dart';
 import 'package:flutter_b9/models/task.dart';
+import 'package:flutter_b9/services/priority.dart';
 import 'package:flutter_b9/services/task.dart';
 
 class CreateTaskView extends StatefulWidget {
@@ -13,11 +17,22 @@ class _CreateTaskViewState extends State<CreateTaskView> {
   TextEditingController titleController = TextEditingController();
 
   TextEditingController descriptionController = TextEditingController();
-
+  List<PriorityModel> priorityList = [];
   bool isLoading = false;
+  PriorityModel? selectedPriority;
+
+  @override
+  void initState() {
+    PriorityServices().getAllPriority().then((val) {
+      priorityList = val;
+      setState(() {});
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    log(priorityList.length.toString());
     return Scaffold(
       appBar: AppBar(
         title: Text("Create Task"),
@@ -30,6 +45,23 @@ class _CreateTaskViewState extends State<CreateTaskView> {
           TextField(
             controller: descriptionController,
           ),
+          SizedBox(
+            height: 10,
+          ),
+          DropdownButton(
+              items: priorityList
+                  .map((e) => DropdownMenuItem(
+                        child: Text(e.name.toString()),
+                        value: e,
+                      ))
+                  .toList(),
+              isExpanded: true,
+              hint: Text("Select Priority"),
+              value: selectedPriority,
+              onChanged: (val) {
+                selectedPriority = val;
+                setState(() {});
+              }),
           SizedBox(
             height: 30,
           ),
@@ -59,6 +91,8 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                               description: descriptionController.text,
                               isCompleted: false,
                               image: "",
+                              priorityID: selectedPriority!.docId.toString(),
+                              priorityName: selectedPriority!.name.toString(),
                               createdAt: DateTime.now().millisecondsSinceEpoch))
                           .then((val) {
                         isLoading = false;

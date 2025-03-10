@@ -36,20 +36,21 @@ class GetAllTaskView extends StatelessWidget {
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                          onPressed: () async {
-                            try {
-                              await TaskServices()
-                                  .deleteTask(taskList[i].taskId.toString());
-                            } catch (e) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text(e.toString())));
-                            }
-                          },
-                          icon: Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          )),
+                      Icon(Icons.flag,color: taskList[i].priorityName == "High"?Colors.red:Colors.green,),
+                      // IconButton(
+                      //     onPressed: () async {
+                      //       try {
+                      //         await TaskServices()
+                      //             .deleteTask(taskList[i].taskId.toString());
+                      //       } catch (e) {
+                      //         ScaffoldMessenger.of(context).showSnackBar(
+                      //             SnackBar(content: Text(e.toString())));
+                      //       }
+                      //     },
+                      //     icon: Icon(
+                      //       Icons.delete,
+                      //       color: Colors.red,
+                      //     )),
                       Checkbox(
                           value: taskList[i].isCompleted,
                           onChanged: (val) async {
