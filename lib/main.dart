@@ -4,6 +4,7 @@ import 'package:flutter_b9/views/create_task.dart';
 import 'package:flutter_b9/views/get_all_task.dart';
 import 'package:flutter_b9/views/get_completed_task.dart';
 import 'package:flutter_b9/views/get_in_completed_task.dart';
+import 'package:flutter_b9/views/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: GetAllTaskView(),
+      home: LoginView(),
     );
   }
 }
