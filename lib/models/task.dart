@@ -7,6 +7,7 @@ import 'dart:convert';
 class TaskModel {
   final String? taskId;
   final String? title;
+  final String? userID;
   final String? description;
   final String? priorityID;
   final String? priorityName;
@@ -20,6 +21,7 @@ class TaskModel {
     this.description,
     this.priorityID,
     this.priorityName,
+    this.userID,
     this.image,
     this.isCompleted,
     this.createdAt,
@@ -34,6 +36,7 @@ class TaskModel {
         createdAt: json["createdAt"],
         priorityID: json["priorityID"],
         priorityName: json["priorityName"],
+        userID: json["userID"],
       );
 
   Map<String, dynamic> toJson(String docID) => {
@@ -45,5 +48,6 @@ class TaskModel {
         "priorityName": priorityName,
         "priorityID": priorityID,
         "createdAt": createdAt,
+        "userID": userID,
       };
 }

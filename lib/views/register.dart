@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_b9/models/user.dart';
 import 'package:flutter_b9/services/auth.dart';
+import 'package:flutter_b9/services/user.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({super.key});
@@ -12,6 +14,8 @@ class _RegisterViewState extends State<RegisterView> {
   TextEditingController emailController = TextEditingController();
 
   TextEditingController pwdController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   bool isLoading = false;
 
@@ -23,6 +27,12 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       body: Column(
         children: [
+          TextField(
+            controller: nameController,
+          ),
+          TextField(
+            controller: phoneController,
+          ),
           TextField(
             controller: emailController,
           ),
@@ -38,6 +48,16 @@ class _RegisterViewState extends State<RegisterView> {
                 )
               : ElevatedButton(
                   onPressed: () async {
+                    if (nameController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Name cannot be empty")));
+                      return;
+                    }
+                    if (phoneController.text.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Phone cannot be empty")));
+                      return;
+                    }
                     if (emailController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Email cannot be empty")));
@@ -55,18 +75,28 @@ class _RegisterViewState extends State<RegisterView> {
                           .registerUser(
                               email: emailController.text,
                               password: pwdController.text)
-                          .then((val) {
-                        isLoading = false;
-                        setState(() {});
-                        showDialog(
-                            context: context,
-                            builder: (context) {
-                              return AlertDialog(
-                                title: Text("Message"),
-                                content: Text(
-                                    "An email with verificatin link has been sent to your mail box."),
-                              );
-                            });
+                          .then((val) async {
+                        await UserServices()
+                            .createUser(UserModel(
+                                name: nameController.text,
+                                email: emailController.text,
+                                phone: phoneController.text,
+                                createdAt:
+                                    DateTime.now().millisecondsSinceEpoch,
+                                docId: val!.uid.toString()))
+                            .then((val) {
+                          isLoading = false;
+                          setState(() {});
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: Text("Message"),
+                                  content: Text(
+                                      "An email with verificatin link has been sent to your mail box."),
+                                );
+                              });
+                        });
                       });
                     } catch (e) {
                       isLoading = false;

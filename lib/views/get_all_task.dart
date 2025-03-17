@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_b9/models/task.dart';
 import 'package:flutter_b9/services/task.dart';
 import 'package:flutter_b9/views/create_task.dart';
+import 'package:flutter_b9/views/profile.dart';
 import 'package:flutter_b9/views/update_task.dart';
 import 'package:provider/provider.dart';
 
@@ -13,6 +15,14 @@ class GetAllTaskView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Get All Task"),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileView()));
+              },
+              icon: Icon(Icons.person))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -22,7 +32,7 @@ class GetAllTaskView extends StatelessWidget {
         child: Icon(Icons.add),
       ),
       body: StreamProvider.value(
-        value: TaskServices().getAllTasks(),
+        value: TaskServices().getAllTasks(FirebaseAuth.instance.currentUser!.uid.toString()),
         initialData: [TaskModel()],
         builder: (context, child) {
           List<TaskModel> taskList = context.watch<List<TaskModel>>();

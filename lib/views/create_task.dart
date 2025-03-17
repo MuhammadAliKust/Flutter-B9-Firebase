@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_b9/models/priority.dart';
 import 'package:flutter_b9/models/task.dart';
@@ -90,6 +91,7 @@ class _CreateTaskViewState extends State<CreateTaskView> {
                               title: titleController.text,
                               description: descriptionController.text,
                               isCompleted: false,
+                              userID: FirebaseAuth.instance.currentUser!.uid.toString(),
                               image: "",
                               priorityID: selectedPriority!.docId.toString(),
                               priorityName: selectedPriority!.name.toString(),

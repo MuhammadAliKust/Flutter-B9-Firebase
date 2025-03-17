@@ -55,10 +55,10 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                             builder: (context) {
                               return AlertDialog(
                                 title: Text("Message"),
-                                content: Text("An email with password reset link has been sent to your mail box"),
+                                content: Text(
+                                    "An email with password reset link has been sent to your mail box"),
                               );
                             });
-
                       });
                     } catch (e) {
                       isLoading = false;
